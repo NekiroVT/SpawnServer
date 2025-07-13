@@ -12,7 +12,17 @@ show-join-message: true
 always-teleport-to-spawn: true
 
 # Forzar siempre reaparecer en el spawn del plugin
-force-spawn-on-death: true
+
+# Forzar siempre reaparecer en el spawn del plugin al morir,
+# incluso si el jugador tiene una cama o ancla de reaparición.
+force-spawn-on-death: false
+
+# 🛡️ (Solo afecta si force-spawn-on-death está en false)
+# Si está en true, entonces el plugin IGNORARÁ lo que otros plugins como Lands,
+# Factions, etc. hayan definido como punto de respawn personalizado.
+# Es decir: si no hay cama/ancla, el plugin forzará el /spawn del plugin
+# incluso si otro plugin intenta establecer su propio respawn (por código).
+force-override-other-spawn-plugins: false
 
 
 spawn:

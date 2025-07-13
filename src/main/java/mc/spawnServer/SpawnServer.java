@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -114,12 +115,14 @@ public class SpawnServer extends JavaPlugin implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
         boolean forceSpawn = getConfig().getBoolean("force-spawn-on-death", false);
+        boolean forceOverride = getConfig().getBoolean("force-override-other-spawn-plugins", false);
 
+        // Si no hay spawn definido, salir
         if (!getSpawnConfig().contains("x")) return;
 
         String worldName = getSpawnConfig().getString("world");
@@ -135,13 +138,35 @@ public class SpawnServer extends JavaPlugin implements Listener {
         Location pluginSpawn = new Location(world, x, y, z, yaw, pitch);
 
         if (forceSpawn) {
+            // 🔁 Siempre usar el spawn del plugin
             event.setRespawnLocation(pluginSpawn);
+            return;
+        }
+
+        // Si no tiene cama ni ancla
+        boolean noRespawnPoint = !event.isBedSpawn() && !event.isAnchorSpawn();
+
+        if (forceOverride) {
+            // 🛡️ Fuerza usar el spawn del plugin, sin importar si otro plugin puso algo
+            if (noRespawnPoint || event.getRespawnLocation() == null) {
+                event.setRespawnLocation(pluginSpawn);
+            } else {
+                event.setRespawnLocation(pluginSpawn); // aunque tenga punto, igual lo forzamos
+            }
         } else {
-            if (!event.isBedSpawn() && !event.isAnchorSpawn()) {
+            // 🤝 Solo usamos el spawn del plugin si nadie más estableció una ubicación especial
+            if (noRespawnPoint || isVanillaWorldSpawn(event.getRespawnLocation())) {
                 event.setRespawnLocation(pluginSpawn);
             }
         }
     }
+
+    private boolean isVanillaWorldSpawn(Location loc) {
+        return loc != null && loc.equals(loc.getWorld().getSpawnLocation());
+    }
+
+
+
 
     public void teleportToSpawn(Player player) {
         String worldName = getSpawnConfig().getString("world");

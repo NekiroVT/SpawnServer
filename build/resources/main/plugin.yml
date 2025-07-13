@@ -1,6 +1,6 @@
 name: SpawnServer
 main: mc.spawnServer.SpawnServer
-version: 2.5.1
+version: 2.5.2
 #api-version: 1.13
 author: NekiroVT
 description: Plúgin hecho para definir el spawn de tu servidor.
