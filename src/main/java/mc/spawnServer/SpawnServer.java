@@ -120,24 +120,26 @@ public class SpawnServer extends JavaPlugin implements Listener {
 
         boolean forceSpawn = getConfig().getBoolean("force-spawn-on-death", false);
 
-        if (forceSpawn && getSpawnConfig().contains("x")) {
-            String worldName = getSpawnConfig().getString("world");
-            World world = Bukkit.getWorld(worldName);
+        if (!getSpawnConfig().contains("x")) return;
 
-            if (world == null) {
-                player.sendMessage("§cNo se pudo encontrar el mundo del spawn configurado.");
-                return;
+        String worldName = getSpawnConfig().getString("world");
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) return;
+
+        double x = getSpawnConfig().getDouble("x");
+        double y = getSpawnConfig().getDouble("y");
+        double z = getSpawnConfig().getDouble("z");
+        float yaw = (float) getSpawnConfig().getDouble("yaw");
+        float pitch = (float) getSpawnConfig().getDouble("pitch");
+
+        Location pluginSpawn = new Location(world, x, y, z, yaw, pitch);
+
+        if (forceSpawn) {
+            event.setRespawnLocation(pluginSpawn);
+        } else {
+            if (!event.isBedSpawn() && !event.isAnchorSpawn()) {
+                event.setRespawnLocation(pluginSpawn);
             }
-
-            double x = getSpawnConfig().getDouble("x");
-            double y = getSpawnConfig().getDouble("y");
-            double z = getSpawnConfig().getDouble("z");
-            float yaw = (float) getSpawnConfig().getDouble("yaw");
-            float pitch = (float) getSpawnConfig().getDouble("pitch");
-
-            Location spawnLocation = new Location(world, x, y, z, yaw, pitch);
-
-            event.setRespawnLocation(spawnLocation);
         }
     }
 
