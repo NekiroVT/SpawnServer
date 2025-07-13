@@ -1,0 +1,54 @@
+# ================================
+# SpawnServer - Configuración
+# ================================
+
+# Mensaje de bienvenida que verá el jugador al entrar
+join-message: "&a¡Bienvenido %player% al servidor!"
+
+# ¿Mostrar mensaje de bienvenida al entrar? true/false
+show-join-message: true
+
+# ¿Enviar automáticamente al spawn a todos los jugadores al entrar?
+always-teleport-to-spawn: true
+
+# Forzar siempre reaparecer en el spawn del plugin
+force-spawn-on-death: true
+
+
+spawn:
+  # Tiempo (en segundos) que tarda en teletransportar al spawn después de usar /spawn
+  delay-seconds: 5
+
+  # Tiempo (en segundos) de cooldown para volver a usar /spawn
+  cooldown-seconds: 30
+
+  # Mundos donde está permitido usar /spawn
+  allowed-worlds:
+    - world
+    - world_nether
+
+  # ¿Cancelar teletransportación si el jugador se mueve?
+  cancel-on-move: true
+
+  anti-spam-enabled: true
+  anti-spam-seconds: 3
+
+
+messages:
+  only-player: "&cEste comando solo lo puede usar un jugador."
+
+  # El %label% muestra el alias usado para el comando (/spawnserver o /sps)
+  # NO BORRAR EL %label%, ES OBLIGATORIO PARA EVITAR ERRORES.
+  usage-player: "&cUsa: /%label% set | reload"
+  usage-console: "&cUsa: /%label% reload"
+  spawn-antispam: "&cNo spamees el /spawn, espera %seconds% segundos."
+  spawn-set: "&aSpawn definido correctamente."
+  reloaded: "&aSpawnServer recargado correctamente."
+  no-permission: "&cNo tienes permiso para usar este comando."
+  spawn-wrong-world: "&cNo puedes usar /spawn en este mundo."
+  spawn-in-delay: "&aSerás teletransportado en %seconds% segundos. No te muevas..."
+  spawn-cooldown: "&cDebes esperar %seconds% segundos antes de usar /spawn de nuevo."
+  spawn-no-combat: "&cNo puedes usar /spawn mientras estás en combate."
+  spawn-success: "&aHas sido teletransportado al spawn del servidor."
+  spawn-no-spawn: "&cNo hay un spawn definido todavía."
+  spawn-moved: "&c¡Teletransportación cancelada!"

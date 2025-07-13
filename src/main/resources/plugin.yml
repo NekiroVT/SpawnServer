@@ -1,0 +1,58 @@
+name: SpawnServer
+main: mc.spawnServer.SpawnServer
+version: 2.5.0
+#api-version: 1.13
+author: NekiroVT
+description: Plúgin hecho para definir el spawn de tu servidor.
+
+commands:
+  spawnserver:
+    description: Usar comandos del plugin set o reload (para recargar el plugin).
+    usage: /spawnserver <set|reload>
+    permission: spawnserver.admin
+    aliases: [sps]
+
+
+  spawn:
+    description: Teletransporta al jugador al spawn del servidor
+    usage: /spawn
+    permission: spawnserver.spawn
+
+permissions:
+  spawnserver.*:
+    description: Permiso maestro para todos los comandos y bypass del plugin.
+    children:
+      spawnserver.spawn: true
+      spawnserver.admin: true
+      spawnserver.bypass.delay: true
+      spawnserver.bypass.cooldown: true
+      spawnserver.worldbypass: true
+
+  spawnserver.admin:
+    description: Permiso para usar todos los comandos config de SpawnServer
+    default: false
+    children:
+      spawnserver.set: true
+      spawnserver.reload: true
+
+  spawnserver.set:
+    description: Permite usar /spawnserver set.
+    default: op
+
+  spawnserver.reload:
+      description: Permite usar /spawnserver reload.
+      default: op
+
+  spawnserver.spawn:
+    description: Permiso para usar /spawn.
+    default: true
+  spawnserver.bypass.delay:
+    description: Ignora solo el delay de teletransporte.
+    default: op
+  spawnserver.bypass.cooldown:
+    description: Ignora solo el cooldown de teletransporte.
+    default: op
+  spawnserver.worldbypass:
+    description: Ignora restricción de mundos donde puede usar el /spawn.
+    default: op
+
